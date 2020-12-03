@@ -1,6 +1,8 @@
 package com.zubisofts.solutions.wallpapercenter;
 
-public class WallPaper {
+import java.io.Serializable;
+
+public class WallPaper implements Serializable {
 
     public WallPaper(String name, int imageResource) {
         this.name = name;

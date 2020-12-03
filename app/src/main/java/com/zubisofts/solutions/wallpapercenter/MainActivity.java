@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.WallpaperManager;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -36,46 +37,9 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
 
     @Override
     public void onWallPaperSelected(WallPaper wallPaper) {
-
-        Glide.with(this)
-                .asBitmap()
-                .load(wallPaper.getImageResource())
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
-                        WallpaperManager manager=WallpaperManager.getInstance(MainActivity.this);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            try {
-                                WallpaperManager wallpaperManager = WallpaperManager.getInstance(MainActivity.this);
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    int wallpaperHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-                                    int wallpaperWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-
-                                    Point start = new Point(0, 0);
-                                    Point end = new Point(bitmap.getWidth(), bitmap.getHeight());
-
-                                    if (bitmap.getWidth() > wallpaperWidth) {
-                                        start.x = (bitmap.getWidth() - wallpaperWidth) / 2;
-                                        end.x = start.x + wallpaperWidth;
-                                    }
-
-                                    if (bitmap.getHeight() > wallpaperHeight) {
-                                        start.y = (bitmap.getHeight() - wallpaperHeight) / 2;
-                                        end.y = start.y + wallpaperHeight;
-                                    }
-
-                                    wallpaperManager.setBitmap(bitmap, new Rect(start.x, start.y, end.x, end.y), false);
-                                } else {
-                                    wallpaperManager.setBitmap(bitmap);
-                                }                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
-
-
+        Intent intent=new Intent(this, WallPaperPreviewActivity.class);
+        intent.putExtra("wallpaper",wallPaper);
+        startActivity(intent);
     }
 
     private ArrayList<WallPaper> fetchWallPapers(){

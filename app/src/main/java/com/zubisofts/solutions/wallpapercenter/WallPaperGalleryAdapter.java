@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalleryAdapter.WallPaperItemHolder> {
@@ -33,6 +35,9 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
     public void onBindViewHolder(@NonNull WallPaperItemHolder holder, final int position) {
         if(wallPapers.get(position) != null){
             holder.txtName.setText(wallPapers.get(position).getName());
+            Glide.with(holder.itemView.getContext())
+                    .load(wallPapers.get(position).getImageResource())
+                    .into(holder.image);
             holder.image.setImageResource(wallPapers.get(position).getImageResource());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
