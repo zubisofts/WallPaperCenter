@@ -1,10 +1,12 @@
-package com.zubisofts.solutions.wallpapercenter;
+package com.zubisofts.solutions.wallpapercenter.fragments;
 
+import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.zubisofts.solutions.wallpapercenter.R;
+import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,16 +28,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
-    WallPaper wallPaper;
+    int wallPaper;
 
-    public WallPaperDestinationFragment(WallPaper wallPaper) {
+    public WallPaperDestinationFragment(int wallPaper) {
         this.wallPaper = wallPaper;
     }
 
@@ -66,7 +69,7 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
         Glide.with(this)
                 .asBitmap()
-                .load(wallPaper.getImageResource())
+                .load(wallPaper)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
@@ -92,12 +95,16 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
                                 if (flagSystem == 0) {
                                     wallpaperManager.setBitmap(bitmap, null, true);
+                                    WallpaperInfo wallpaperInfo = wallpaperManager.getWallpaperInfo();
+
                                 } else if (flagSystem == 1) {
                                     wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
                                 } else {
                                     wallpaperManager.setBitmap(bitmap, new Rect(start.x, start.y, end.x, end.y), false);
 
                                 }
+
+                                Toast.makeText(getContext(), "Wallpaper set successfully", Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

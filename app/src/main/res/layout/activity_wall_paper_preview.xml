@@ -4,15 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".WallPaperPreviewActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:id="@+id/image"/>
-
+    tools:context=".activity.WallPaperPreviewActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"

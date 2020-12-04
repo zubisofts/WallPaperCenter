@@ -1,6 +1,5 @@
-package com.zubisofts.solutions.wallpapercenter;
+package com.zubisofts.solutions.wallpapercenter.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.zubisofts.solutions.wallpapercenter.R;
+import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    wallPaperItemClickListener.onWallPaperSelected(wallPapers.get(position));
+                    wallPaperItemClickListener.onWallPaperSelected(position);
                 }
             });
         }
@@ -77,7 +78,7 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
         }
     }
 
-    interface WallPaperItemClickListener{
-        public void onWallPaperSelected(WallPaper wallPaper);
+    public interface WallPaperItemClickListener{
+        public void onWallPaperSelected(int position);
     }
 }

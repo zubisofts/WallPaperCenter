@@ -1,24 +1,15 @@
-package com.zubisofts.solutions.wallpapercenter;
+package com.zubisofts.solutions.wallpapercenter.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.WallpaperManager;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.zubisofts.solutions.wallpapercenter.R;
+import com.zubisofts.solutions.wallpapercenter.adapters.WallPaperGalleryAdapter;
+import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements WallPaperGalleryAdapter.WallPaperItemClickListener {
@@ -36,9 +27,16 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
     }
 
     @Override
-    public void onWallPaperSelected(WallPaper wallPaper) {
+    public void onWallPaperSelected(int position) {
         Intent intent=new Intent(this, WallPaperPreviewActivity.class);
-        intent.putExtra("wallpaper",wallPaper);
+        intent.putExtra("index",position);
+
+        ArrayList<Integer> wallpapers=new ArrayList<>();
+        ArrayList<WallPaper> list = fetchWallPapers();
+        for(WallPaper wallPaper:list){
+            wallpapers.add(wallPaper.getImageResource());
+        }
+        intent.putExtra("wallpapers",wallpapers);
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package com.zubisofts.solutions.wallpapercenter;
+package com.zubisofts.solutions.wallpapercenter.model;
 
 import java.io.Serializable;
 
