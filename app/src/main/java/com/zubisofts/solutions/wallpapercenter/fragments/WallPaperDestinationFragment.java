@@ -34,10 +34,10 @@ import java.io.IOException;
 
 public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
-    int wallPaper;
+    OptionListener optionListener;
 
-    public WallPaperDestinationFragment(int wallPaper) {
-        this.wallPaper = wallPaper;
+    public WallPaperDestinationFragment(OptionListener optionListener) {
+        this.optionListener=optionListener;
     }
 
     @Nullable
@@ -54,65 +54,9 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
         String[] titles = new String[]{"Set As Home-Screen Only", "Set As Lock-Screen Only", "Set As Home-Screen And Lock-Screen"};
         int[] icons = new int[]{R.drawable.ic_home, R.drawable.ic_lock_screen, R.drawable.ic_add_home};
-        ItemAdapter adapter = new ItemAdapter(titles, icons);
-        adapter.setListener(new OptionListener() {
-            @Override
-            public void onOptionSelected(int position) {
-                setWallpaper(position);
-                dismiss();
-            }
-        });
+        ItemAdapter adapter = new ItemAdapter(titles, icons,optionListener);
         recyclerView.setAdapter(adapter);
     }
-
-    private void setWallpaper(final int flagSystem) {
-
-        Glide.with(this)
-                .asBitmap()
-                .load(wallPaper)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            try {
-                                WallpaperManager wallpaperManager = WallpaperManager.getInstance(getContext());
-
-                                int wallpaperHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-                                int wallpaperWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-
-                                Point start = new Point(0, 0);
-                                Point end = new Point(bitmap.getWidth(), bitmap.getHeight());
-
-                                if (bitmap.getWidth() > wallpaperWidth) {
-                                    start.x = (bitmap.getWidth() - wallpaperWidth) / 2;
-                                    end.x = start.x + wallpaperWidth;
-                                }
-
-                                if (bitmap.getHeight() > wallpaperHeight) {
-                                    start.y = (bitmap.getHeight() - wallpaperHeight) / 2;
-                                    end.y = start.y + wallpaperHeight;
-                                }
-
-                                if (flagSystem == 0) {
-                                    wallpaperManager.setBitmap(bitmap, null, true);
-
-                                } else if (flagSystem == 1) {
-                                    wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
-                                } else {
-                                    wallpaperManager.setBitmap(bitmap, new Rect(start.x, start.y, end.x, end.y), false);
-
-                                }
-
-                                Toast.makeText(getContext(), "Wallpaper set successfully", Toast.LENGTH_SHORT).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
-
-    }
-
 
     private class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -133,9 +77,10 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
         private OptionListener listener;
 
-        public ItemAdapter(String[] titles, int[] icons) {
+        public ItemAdapter(String[] titles, int[] icons, OptionListener listener) {
             this.titles = titles;
             this.icons = icons;
+            this.listener=listener;
         }
 
         @NonNull
@@ -153,6 +98,7 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onClick(View view) {
                     listener.onOptionSelected(position);
+                    dismiss();
                 }
             });
         }
@@ -162,9 +108,6 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
             return titles.length;
         }
 
-        public void setListener(OptionListener listener) {
-            this.listener = listener;
-        }
     }
 
     public interface OptionListener {

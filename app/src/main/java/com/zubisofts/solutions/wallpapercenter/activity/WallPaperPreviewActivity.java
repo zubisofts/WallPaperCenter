@@ -1,27 +1,44 @@
 package com.zubisofts.solutions.wallpapercenter.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.WallpaperManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.zubisofts.solutions.wallpapercenter.R;
 import com.zubisofts.solutions.wallpapercenter.adapters.WallPaperPagerAdapter;
 import com.zubisofts.solutions.wallpapercenter.fragments.WallPaperDestinationFragment;
 import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class WallPaperPreviewActivity extends AppCompatActivity {
+public class WallPaperPreviewActivity extends AppCompatActivity implements WallPaperDestinationFragment.OptionListener {
 
     private int index;
+    private ArrayList<Integer> wallPapers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +46,13 @@ public class WallPaperPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wall_paper_preview);
 //        makeStatusBarTransparent();
 
-        index= getIntent().getIntExtra("index",0);
-        String imageTransitionName=getIntent().getStringExtra("image_transition_name");
-        final ArrayList<Integer> wallPapers= getIntent().getIntegerArrayListExtra("wallpapers");
+        index = getIntent().getIntExtra("index", 0);
+        String imageTransitionName = getIntent().getStringExtra("image_transition_name");
+        wallPapers = getIntent().getIntegerArrayListExtra("wallpapers");
 
-        ViewPager viewPager=findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
         viewPager.setTransitionName(imageTransitionName);
-        WallPaperPagerAdapter adapter=new WallPaperPagerAdapter(wallPapers);
+        WallPaperPagerAdapter adapter = new WallPaperPagerAdapter(wallPapers);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(index);
 
@@ -47,7 +64,7 @@ public class WallPaperPreviewActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                index=position;
+                index = position;
             }
 
             @Override
@@ -60,26 +77,80 @@ public class WallPaperPreviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (wallPapers != null) {
-                    new WallPaperDestinationFragment(wallPapers.get(index)).show(getSupportFragmentManager(),"Wallpaper");
+                    new WallPaperDestinationFragment(WallPaperPreviewActivity.this).show(getSupportFragmentManager(), "Wallpaper");
                 }
             }
         });
 
     }
 
-    private void makeStatusBarTransparent() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window=getWindow();
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    private class WallPaperAsyncTask extends AsyncTask<Integer, Void, Void> {
 
-                } else {
-                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        @Override
+        protected Void doInBackground(Integer... index) {
+
+            final int i = setWallpaper(index[0]);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (i > 0) {
+                        Toast.makeText(getApplicationContext(), "Wallpaper set successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error setting wallpaper", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                window.setStatusBarColor(Color.TRANSPARENT);
+            });
+
+            return null;
         }
     }
+
+    @Override
+    public void onOptionSelected(int position) {
+        new WallPaperAsyncTask().execute(position);
+    }
+
+    private int setWallpaper(final int flagSystem) {
+
+        BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(this, wallPapers.get(index));
+        Bitmap bitmap = drawable.getBitmap();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                WallpaperManager wallpaperManager = WallpaperManager.getInstance(WallPaperPreviewActivity.this);
+
+                int wallpaperHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+                int wallpaperWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+
+                Point start = new Point(0, 0);
+                Point end = new Point(bitmap.getWidth(), bitmap.getHeight());
+
+                if (bitmap.getWidth() > wallpaperWidth) {
+                    start.x = (bitmap.getWidth() - wallpaperWidth) / 2;
+                    end.x = start.x + wallpaperWidth;
+                }
+
+                if (bitmap.getHeight() > wallpaperHeight) {
+                    start.y = (bitmap.getHeight() - wallpaperHeight) / 2;
+                    end.y = start.y + wallpaperHeight;
+                }
+
+                if (flagSystem == 0) {
+                    return wallpaperManager.setBitmap(bitmap, null, true);
+                } else if (flagSystem == 1) {
+                    return wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
+                } else {
+                    return wallpaperManager.setBitmap(bitmap, new Rect(start.x, start.y, end.x, end.y), false);
+
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return 0;
+    }
+
 }
