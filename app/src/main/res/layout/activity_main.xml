@@ -19,12 +19,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.zubisofts.solutions.wallpapercenter.utils.CustomGridRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:id="@+id/recyclerView"
-        android:layoutAnimation="@anim/layout_animation_down_to_up"
         tools:listitem="@layout/wallpaper_list_item"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"/>

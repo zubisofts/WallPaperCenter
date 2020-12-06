@@ -68,7 +68,7 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
 
     public void setWallPapers(ArrayList<WallPaper> wallPapers) {
         this.wallPapers = wallPapers;
-        notifyDataSetChanged();
+        notifyItemRangeChanged(0,wallPapers.size());
     }
 
     static class WallPaperItemHolder extends RecyclerView.ViewHolder{
