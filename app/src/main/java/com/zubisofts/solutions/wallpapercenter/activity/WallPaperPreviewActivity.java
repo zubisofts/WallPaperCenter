@@ -30,9 +30,11 @@ public class WallPaperPreviewActivity extends AppCompatActivity {
 //        makeStatusBarTransparent();
 
         index= getIntent().getIntExtra("index",0);
+        String imageTransitionName=getIntent().getStringExtra("image_transition_name");
         final ArrayList<Integer> wallPapers= getIntent().getIntegerArrayListExtra("wallpapers");
 
         ViewPager viewPager=findViewById(R.id.viewpager);
+        viewPager.setTransitionName(imageTransitionName);
         WallPaperPagerAdapter adapter=new WallPaperPagerAdapter(wallPapers);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(index);

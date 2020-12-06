@@ -95,7 +95,6 @@ public class WallPaperDestinationFragment extends BottomSheetDialogFragment {
 
                                 if (flagSystem == 0) {
                                     wallpaperManager.setBitmap(bitmap, null, true);
-                                    WallpaperInfo wallpaperInfo = wallpaperManager.getWallpaperInfo();
 
                                 } else if (flagSystem == 1) {
                                     wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);

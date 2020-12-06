@@ -3,10 +3,12 @@ package com.zubisofts.solutions.wallpapercenter.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -33,20 +35,25 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WallPaperItemHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final WallPaperItemHolder holder, final int position) {
+
+//        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.down_to_up));
+
         if(wallPapers.get(position) != null){
             holder.txtName.setText(wallPapers.get(position).getName());
             Glide.with(holder.itemView.getContext())
                     .load(wallPapers.get(position).getImageResource())
                     .into(holder.image);
             holder.image.setImageResource(wallPapers.get(position).getImageResource());
-
+            holder.image.setTransitionName("position_"+position);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    wallPaperItemClickListener.onWallPaperSelected(position);
+                    wallPaperItemClickListener.onWallPaperSelected(position,holder.image);
                 }
             });
+
+
         }
     }
 
@@ -79,6 +86,6 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
     }
 
     public interface WallPaperItemClickListener{
-        public void onWallPaperSelected(int position);
+        public void onWallPaperSelected(int position, ImageView imageView);
     }
 }

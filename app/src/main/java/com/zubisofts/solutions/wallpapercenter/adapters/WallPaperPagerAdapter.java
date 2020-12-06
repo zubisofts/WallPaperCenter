@@ -28,6 +28,7 @@ public class WallPaperPagerAdapter extends PagerAdapter {
 
         FrameLayout frameLayout= (FrameLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.wallpaper_preview_item,container,false);
         ImageView imageView=frameLayout.findViewById(R.id.image);
+//        imageView.setTransitionName("position_"+position);
         imageView.setImageResource(wallpapers.get(position));
 
         container.addView(frameLayout);
