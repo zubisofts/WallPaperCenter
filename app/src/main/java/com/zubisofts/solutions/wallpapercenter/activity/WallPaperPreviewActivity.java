@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.github.clans.fab.FloatingActionMenu;
 import com.zubisofts.solutions.wallpapercenter.R;
 import com.zubisofts.solutions.wallpapercenter.adapters.WallPaperPagerAdapter;
 import com.zubisofts.solutions.wallpapercenter.fragments.WallPaperDestinationFragment;
@@ -35,7 +36,7 @@ import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class WallPaperPreviewActivity extends AppCompatActivity implements WallPaperDestinationFragment.OptionListener {
+public class WallPaperPreviewActivity extends AppCompatActivity implements  View.OnClickListener {
 
     private int index;
     private ArrayList<Integer> wallPapers;
@@ -73,15 +74,27 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements WallP
             }
         });
 
-        findViewById(R.id.btnOptions).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (wallPapers != null) {
-                    new WallPaperDestinationFragment(WallPaperPreviewActivity.this).show(getSupportFragmentManager(), "Wallpaper");
-                }
-            }
-        });
+        findViewById(R.id.menu_item_home_screen).setOnClickListener(this);
+        findViewById(R.id.menu_item_lock_screen).setOnClickListener(this);
+        findViewById(R.id.menu_item_both).setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        int flag;
+        if(view.getId()==R.id.menu_item_home_screen){
+            flag=0;
+        }else if(view.getId()==R.id.menu_item_lock_screen){
+            flag=1;
+        }else{
+            flag = 2;
+        }
+
+        if (wallPapers != null) {
+            new WallPaperAsyncTask().execute(flag);
+            ((FloatingActionMenu)findViewById(R.id.fab_menu)).close(true);
+        }
     }
 
     private class WallPaperAsyncTask extends AsyncTask<Integer, Void, Void> {
@@ -104,11 +117,6 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements WallP
 
             return null;
         }
-    }
-
-    @Override
-    public void onOptionSelected(int position) {
-        new WallPaperAsyncTask().execute(position);
     }
 
     private int setWallpaper(final int flagSystem) {
