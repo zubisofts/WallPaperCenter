@@ -137,7 +137,7 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements WallP
                 }
 
                 if (flagSystem == 0) {
-                    return wallpaperManager.setBitmap(bitmap, null, true);
+                    return wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM);
                 } else if (flagSystem == 1) {
                     return wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
                 } else {
