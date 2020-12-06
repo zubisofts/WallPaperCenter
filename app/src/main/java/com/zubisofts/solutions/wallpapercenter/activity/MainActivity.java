@@ -82,11 +82,6 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
         WallPaper w6=new WallPaper("Love Path",R.drawable.love_path);
         WallPaper w7=new WallPaper("Pink Blue Flower",R.drawable.pink_blue_flowers);
         WallPaper w8=new WallPaper("The Verge",R.drawable.the_verge);
-        WallPaper w9=new WallPaper("Joker",R.drawable.joker);
-        WallPaper w10=new WallPaper("Love Path",R.drawable.love_path);
-        WallPaper w11=new WallPaper("Pink Blue Flower",R.drawable.pink_blue_flowers);
-        WallPaper w12=new WallPaper("The Verge",R.drawable.the_verge);
-
         wallPapers.add(w1);
         wallPapers.add(w2);
         wallPapers.add(w3);
@@ -95,10 +90,6 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
         wallPapers.add(w6);
         wallPapers.add(w7);
         wallPapers.add(w8);
-        wallPapers.add(w9);
-        wallPapers.add(w10);
-        wallPapers.add(w11);
-        wallPapers.add(w12);
 
         return wallPapers;
     }
