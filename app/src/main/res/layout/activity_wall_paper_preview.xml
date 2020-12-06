@@ -15,8 +15,8 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -31,7 +31,7 @@
         app:menu_colorPressed="#E75043"
         app:menu_colorRipple="#99FFFFFF"
         app:menu_animationDelayPerItem="50"
-        app:menu_icon="@drawable/fab_add"
+        app:menu_icon="@drawable/ic_arrow_up"
         app:menu_buttonSpacing="0dp"
         app:menu_labels_margin="0dp"
         app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"

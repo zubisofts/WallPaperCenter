@@ -77,6 +77,7 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
         findViewById(R.id.menu_item_home_screen).setOnClickListener(this);
         findViewById(R.id.menu_item_lock_screen).setOnClickListener(this);
         findViewById(R.id.menu_item_both).setOnClickListener(this);
+        ((FloatingActionMenu)findViewById(R.id.fab_menu)).setClosedOnTouchOutside(true);
 
     }
 
