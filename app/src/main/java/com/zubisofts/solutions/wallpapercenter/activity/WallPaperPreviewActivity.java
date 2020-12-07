@@ -45,7 +45,7 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall_paper_preview);
-//        makeStatusBarTransparent();
+        makeStatusBarTransparent();
 
         index = getIntent().getIntExtra("index", 0);
         String imageTransitionName = getIntent().getStringExtra("image_transition_name");
@@ -78,6 +78,24 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
         findViewById(R.id.menu_item_lock_screen).setOnClickListener(this);
         findViewById(R.id.menu_item_both).setOnClickListener(this);
         ((FloatingActionMenu)findViewById(R.id.fab_menu)).setClosedOnTouchOutside(true);
+
+    }
+
+    private void makeStatusBarTransparent() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window=getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+                } else {
+                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                }
+            window.setStatusBarColor(Color.TRANSPARENT);
+            }
 
     }
 
