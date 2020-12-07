@@ -1,37 +1,24 @@
 package com.zubisofts.solutions.wallpapercenter.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.WallpaperManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.github.clans.fab.FloatingActionMenu;
 import com.zubisofts.solutions.wallpapercenter.R;
 import com.zubisofts.solutions.wallpapercenter.adapters.WallPaperPagerAdapter;
-import com.zubisofts.solutions.wallpapercenter.fragments.WallPaperDestinationFragment;
-import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,7 +73,8 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window=getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -146,22 +134,6 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             try {
                 WallpaperManager wallpaperManager = WallpaperManager.getInstance(WallPaperPreviewActivity.this);
-
-                int wallpaperHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-                int wallpaperWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-
-                Point start = new Point(0, 0);
-                Point end = new Point(bitmap.getWidth(), bitmap.getHeight());
-
-                if (bitmap.getWidth() > wallpaperWidth) {
-                    start.x = (bitmap.getWidth() - wallpaperWidth) / 2;
-                    end.x = start.x + wallpaperWidth;
-                }
-
-                if (bitmap.getHeight() > wallpaperHeight) {
-                    start.y = (bitmap.getHeight() - wallpaperHeight) / 2;
-                    end.y = start.y + wallpaperHeight;
-                }
 
                 if (flagSystem == 0) {
                     return wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM);
