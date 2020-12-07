@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.zubisofts.solutions.wallpapercenter.R;
 import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
 
@@ -29,7 +30,9 @@ public class WallPaperPagerAdapter extends PagerAdapter {
         FrameLayout frameLayout= (FrameLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.wallpaper_preview_item,container,false);
         ImageView imageView=frameLayout.findViewById(R.id.image);
 //        imageView.setTransitionName("position_"+position);
-        imageView.setImageResource(wallpapers.get(position));
+        Glide.with(container.getContext())
+                .load(wallpapers.get(position))
+                .into(imageView);
 
         container.addView(frameLayout);
 

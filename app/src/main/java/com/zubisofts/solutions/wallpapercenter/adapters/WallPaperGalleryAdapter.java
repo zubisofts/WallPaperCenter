@@ -44,7 +44,6 @@ public class WallPaperGalleryAdapter extends RecyclerView.Adapter<WallPaperGalle
             Glide.with(holder.itemView.getContext())
                     .load(wallPapers.get(position).getImageResource())
                     .into(holder.image);
-            holder.image.setImageResource(wallPapers.get(position).getImageResource());
             holder.image.setTransitionName("position_"+position);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
