@@ -3,10 +3,15 @@ package com.zubisofts.solutions.wallpapercenter.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         WallPaperGalleryAdapter adapter=new WallPaperGalleryAdapter();
@@ -104,4 +112,19 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
         return wallPapers;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.menu_share_app){
+            Toast.makeText(this, "dggjhkl;", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

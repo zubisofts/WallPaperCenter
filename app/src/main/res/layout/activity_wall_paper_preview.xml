@@ -64,6 +64,22 @@
             app:fab_label="Home Screen And Lock Screen"
             app:fab_size="mini" />
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_save_wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_save_alt"
+            app:fab_label="Save to phone"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_share_wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            app:fab_label="Share wallpaper"
+            app:fab_size="mini" />
+
     </com.github.clans.fab.FloatingActionMenu>
 
 
