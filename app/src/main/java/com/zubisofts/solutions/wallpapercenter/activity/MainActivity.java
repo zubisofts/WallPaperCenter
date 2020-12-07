@@ -1,40 +1,31 @@
 package com.zubisofts.solutions.wallpapercenter.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zubisofts.solutions.wallpapercenter.R;
 import com.zubisofts.solutions.wallpapercenter.adapters.WallPaperGalleryAdapter;
 import com.zubisofts.solutions.wallpapercenter.model.WallPaper;
-import com.zubisofts.solutions.wallpapercenter.utils.CustomGridRecyclerView;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 public class MainActivity extends AppCompatActivity implements WallPaperGalleryAdapter.WallPaperItemClickListener {
-
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView=findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         WallPaperGalleryAdapter adapter=new WallPaperGalleryAdapter();
         adapter.setWallPapers(fetchWallPapers());
         adapter.setWallPaperItemClickListener(this);
@@ -82,6 +73,16 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
         WallPaper w6=new WallPaper("Love Path",R.drawable.love_path);
         WallPaper w7=new WallPaper("Pink Blue Flower",R.drawable.pink_blue_flowers);
         WallPaper w8=new WallPaper("The Verge",R.drawable.the_verge);
+        WallPaper w9=new WallPaper("C1",R.drawable.c1);
+        WallPaper w10=new WallPaper("C2",R.drawable.c2);
+        WallPaper w11=new WallPaper("C3",R.drawable.c3);
+        WallPaper w12=new WallPaper("C4",R.drawable.c4);
+        WallPaper w13=new WallPaper("C5",R.drawable.c5);
+        WallPaper w14=new WallPaper("C6",R.drawable.c6);
+        WallPaper w15=new WallPaper("C7",R.drawable.c7);
+        WallPaper w16=new WallPaper("C8",R.drawable.c8);
+        WallPaper w17=new WallPaper("C9",R.drawable.c9);
+        WallPaper w18=new WallPaper("C10",R.drawable.c10);
         wallPapers.add(w1);
         wallPapers.add(w2);
         wallPapers.add(w3);
@@ -89,7 +90,16 @@ public class MainActivity extends AppCompatActivity implements WallPaperGalleryA
         wallPapers.add(w5);
         wallPapers.add(w6);
         wallPapers.add(w7);
-        wallPapers.add(w8);
+        wallPapers.add(w9);
+        wallPapers.add(w10);
+        wallPapers.add(w11);
+        wallPapers.add(w12);
+        wallPapers.add(w13);
+        wallPapers.add(w14);
+        wallPapers.add(w15);
+        wallPapers.add(w16);
+        wallPapers.add(w17);
+        wallPapers.add(w18);
 
         return wallPapers;
     }

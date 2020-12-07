@@ -150,7 +150,7 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
                 } else if (flagSystem == 1) {
                     return wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
                 } else {
-                    return wallpaperManager.setBitmap(bitmap, new Rect(start.x, start.y, end.x, end.y), false);
+                    return wallpaperManager.setBitmap(bitmap, null, false);
 
                 }
 
@@ -162,4 +162,12 @@ public class WallPaperPreviewActivity extends AppCompatActivity implements  View
         return 0;
     }
 
+    @Override
+    public void onBackPressed() {
+        if(((FloatingActionMenu)findViewById(R.id.fab_menu)).isOpened()){
+            ((FloatingActionMenu)findViewById(R.id.fab_menu)).close(true);
+        }else {
+            super.onBackPressed();
+        }
+    }
 }
